@@ -2,7 +2,7 @@ from multiprocessing.dummy import Pool as ThreadPool
 from html import getHTML
 import csv
 import sys
-
+import os
 
 def scrape(array, function, threads):
         # Define the number of threads
@@ -47,10 +47,12 @@ def getExistingData(csvFile, colNum):
     # Add the values in colNum in csvFile to an array
     array = []
     print("Reading data from %s.csv." % (csvFile))
-    with open("csv/%s.csv" % (csvFile), encoding='utf-8') as csvfile:
-        readCSV = csv.reader(csvfile, delimiter=',')
-        for row in readCSV:
-            array.append(row[colNum])
+    if os.path.exists("csv/%s.csv" % (csvFile)):
+        with open("csv/%s.csv" % (csvFile), encoding='utf-8') as csvfile:
+            readCSV = csv.reader(csvfile, delimiter=',')
+            for row in readCSV:
+                array.append(row[colNum])
+    
     return array
 
 
